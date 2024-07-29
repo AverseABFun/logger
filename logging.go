@@ -53,7 +53,7 @@ func GetStream() io.Writer {
 var prefix = ""
 
 // Log a message with a specified log type. Use the log type constants(LogInfo, LogError, LogWarning, LogDebug, and LogFatal) for the log type.
-func Log(msg string, logType int) {
+func Log(logType int, msg string) {
 	msg = formatColor.MagentaString(msg)
 	switch logType {
 	case LogError:
@@ -79,7 +79,7 @@ func Log(msg string, logType int) {
 
 // Same as Log, except accepts a format string and format arguments.
 func Logf(logType int, format string, a ...any) {
-	Log(fmt.Sprintf(format, a...), logType)
+	Log(logType, fmt.Sprintf(format, a...))
 }
 
 // Logs a newline without any prefix(including the time, the custom prefix, and anything else from custom flags).
