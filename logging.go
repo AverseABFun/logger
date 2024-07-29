@@ -5,6 +5,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"strings"
 
 	formatColor "github.com/fatih/color"
 )
@@ -79,6 +80,15 @@ func Log(logType int, msg string) {
 
 // Same as Log, except accepts a format string and format arguments.
 func Logf(logType int, format string, a ...any) {
+	if strings.Contains(format, "%w") {
+		for i, arg := range a {
+			if err, ok := arg.(error); ok {
+				format = strings.Replace(format, "%w", "%v", 1)
+				a[i] = fmt.Errorf(format, err)
+				break
+			}
+		}
+	}
 	Log(logType, fmt.Sprintf(format, a...))
 }
 
