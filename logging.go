@@ -93,7 +93,7 @@ func Log(logType int, msg string) {
 	}
 	logger.SetPrefix(prefix + logger.Prefix())
 	if fileLoggingEnabled {
-		var file, err = os.OpenFile(fileLogging, os.O_APPEND, 0700)
+		var file, err = os.OpenFile(fileLogging, os.O_APPEND|os.O_CREATE, 0700)
 		if err != nil {
 			fileLoggingEnabled = false
 			Logf(LogFatal, "Error opening log file: %w", err)
