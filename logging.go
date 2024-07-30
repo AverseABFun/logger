@@ -51,6 +51,27 @@ func GetStream() io.Writer {
 	return logger.Writer()
 }
 
+var fileLoggingEnabled = false
+var fileLogging = ""
+
+// Sets the logging file to the specified value, enabling file logging if necessary. If the file passed is the empty string(""), then it will disable file logging.
+//
+// Passing an empty string is equivalent to calling DisableLoggingFile.
+func SetLoggingFile(file string) {
+	fileLoggingEnabled = file != ""
+	fileLogging = file
+}
+
+// Disables file logging and sets the file to the empty string("").
+func DisableLoggingFile() {
+	SetLoggingFile("")
+}
+
+// Returns if file logging is enabled and, if so, the path to the file.
+func GetLoggingFile() (bool, string) {
+	return fileLoggingEnabled, fileLogging
+}
+
 var prefix = ""
 
 // Log a message with a specified log type. Use the log type constants(LogInfo, LogError, LogWarning, LogDebug, and LogFatal) for the log type.
@@ -71,6 +92,15 @@ func Log(logType int, msg string) {
 		logger.SetPrefix("")
 	}
 	logger.SetPrefix(prefix + logger.Prefix())
+	if fileLoggingEnabled {
+		var file, err = os.OpenFile(fileLogging, os.O_APPEND, 0700)
+		if err != nil {
+			fileLoggingEnabled = false
+			Logf(LogFatal, "Error opening log file: %w", err)
+			return
+		}
+		file.WriteString(logger.Prefix() + msg)
+	}
 	if logType == LogFatal {
 		logger.Fatalln(msg)
 	} else {
