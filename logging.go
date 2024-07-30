@@ -100,6 +100,7 @@ func Log(logType int, msg string) {
 			return
 		}
 		file.WriteString(logger.Prefix() + msg)
+		file.Close()
 	}
 	if logType == LogFatal {
 		logger.Fatalln(msg)
