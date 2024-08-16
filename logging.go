@@ -1,4 +1,4 @@
-package logger // import "averse.is-a.dev/pkgs/logger"
+package logger // import "averse.is-a.dev/pkgs/logger/v2"
 
 import (
 	"fmt"

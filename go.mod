@@ -1,4 +1,4 @@
-module averse.is-a.dev/pkgs/logger
+module averse.is-a.dev/pkgs/logger/v2
 
 go 1.22.5
 
