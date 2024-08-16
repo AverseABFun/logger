@@ -1,4 +1,4 @@
-module github.com/averseabfun/logger
+module averse.is-a.dev/pkgs/logger
 
 go 1.22.5
 
